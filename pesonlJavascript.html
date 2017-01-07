@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Project JavaScript</title>
+</head>
+<body>       <button id="myBtn"></button>
+    <script>
+
+
+          // 数据属性
+                // var person={};
+                // Object.defineProperty(person,"name",{
+                //   writable:false,
+                //   value:"hhgg"
+                // });
+
+                // alert(person.name);
+                // person.name="hjgg";
+                // alert(person.name);
+                
+                // var person={};
+                // Object.defineProperty(person,"name",{
+                //   configurable:false,
+                //   value:"HLC"
+                // });                
+                //抛出错误
+               // Object.defineProperty(person,"name",{
+               //  configurable:true,
+               //  value:"HLc"
+               // });
+
+
+            // 访问器属性
+            // var book={
+            //   _year:2004,
+            //   edition:1
+            // };
+
+            // Object.defineProperty(book,"year",{
+            //        get:function () {
+            //               return this._year;
+            //        },
+            //        set:function (newValue) {
+            //         if(newValue>2004){
+            //            this._year=newValue;
+            //              this.edition+=newValue-2004;
+            //           }                        
+            //        }
+            // });
+
+            // book.year=2016;
+            // alert(book.edition);
+
+            // 对象定义多个属性          
+          // var book={};
+
+          // Object.defineProperties(book,{
+          //       _year:{
+          //             value:2004
+          //       },
+          //       edition:{
+          //             value:2
+          //       },
+          //       year:{
+          //          get:function () {
+          //             return this._year;
+          //          },
+          //          set:function (newValue) {
+          //             if(newValue>2004){
+          //                   this._year=newValue;
+          //                   this.edition += newValue - 2004;
+          //             }
+          //          }
+          //       }
+          // });
+         
+          // 可以取得给定属性的描述符
+          // var book={};
+
+          // Object.defineProperties(book,{
+          //   _year:{
+          //      value:2015
+          //   },
+          //   edition:{
+          //      value:1
+          //   },
+          //   year:{
+          //      get:function () {
+          //        return this._year;
+          //      },
+          //      set:function (newValue) {
+          //           if(newValue>2015){
+          //              this._year=newValue;
+          //              this.edition+=newValue-2015;
+          //           }
+          //        }               
+          //   }
+          // });
+
+          // var descriptor=Object.getOwnPropertyDescriptor(book,"_year");
+          // alert(descriptor.value);
+          // alert(descriptor.configurable);
+          // alert(typeof descriptor.get);
+
+          // var descriptor=Object.getOwnPropertyDescriptor(book,"year");
+          // alert(descriptor.value);
+          // alert(descriptor.enumerable);
+          // alert(typeof descriptor.get);
+          
+
+          //工厂模式
+          // function createPerson(name,age,job) {
+          //    var o={};
+          //    o.name=name;
+          //    o.age=age;
+          //    o.job=job;
+          //    o.sayName=function () {
+          //       alert(this.name);
+          //    };
+          //    return o;
+          // }       
+           
+
+
+
+          // var person1=createPerson("Nicholas",29,"Software Engineer");
+          // var person2=createPerson("Greg",27,"Doctor");
+
+          // console.log(person1+"   "+person2.name);
+
+
+          // 构造函数模式
+          // function Person(name,age,job) {
+          //    this.name=name;
+          //    this.age=age;
+          //    this.job=job;
+          //    this.sayName=function () {
+          //       alert(this.name);
+          //    };
+          // } 
+        
+          
+
+
+
+          // var person1=new Person("Nicholas",29,"Software Engineer");
+          // var person2=new Person("Greg",26,"Doctor");
+          // console.log(person1.constructor==Person); //true
+          // console.log(person2.constructor==Person); //true
+
+          // console.log(person1 instanceof Object);//true
+          // console.log(person1 instanceof Person);//true
+          // console.log(person2 instanceof Object);//true
+          // console.log(person2 instanceof Person);//true
+          
+          // //当做构造函数使用
+          // var person=new Person("HL",24,"Software Engineer");
+          // person.sayName();
+           
+          // //作为普通函数调用
+          // Person("Greg",27,"Doctor");
+          // window.sayName();
+
+          // //在另一个对象的作用域中调用
+          // var o={};
+          // Person.call(o,"Kristen",25,"Nurse");
+          // // Person.apply(o,["Kristen",25,"Nurse"]);
+          // o.sayName();
+
+         
+
+          // // 构造函数的问题
+          // function Person(name,age,job) {
+          //   this.name=name;
+          //   thiis.age=age;
+          //   this.job=job;
+          //   this.sayName=new Function("alert(this.name)");
+          //   //与声明函数在逻辑上是等价的
+          // }          
+          
+
+     
+        
+          // // 改进
+          // function Person(name,age,job) {
+          //   this.name=name;
+          //   this.age=age;
+          //   this.job=job;
+          //   this.sayName=sayName;
+          // }
+          // function sayName() {
+          //   alert(this.name);
+          // }
+      
+          
+          
+          // var person1=new Person("Nicholas",29,"SE");
+          // var person1=new Person("Greg",27,"Doctor");
+      
+          //原型模式
+          // function Person() {}
+
+          //     Person.prototype.name="Nicholas";
+          //     Person.prototype.age=28;
+          //     Person.prototype.job="EB";
+          //     Person.prototype.sayName=function () {
+          //       alert(this.name);
+          //     };   
+          //     var person1=new Person();
+          //     person1.sayName();
+
+          //     var person2=new Person();
+          //     person2.sayName();
+
+          //     alert(person1.sayName==person2.sayName); 
+         
+
+          //     console.log(Person.prototype.isPrototypeOf(person1));
+          //     console.log(Person.prototype.isPrototypeOf(person2));
+          //     console.log(Object.getPrototypeOf(person1)==Person.prototype);
+          //      console.log(Object.getPrototypeOf(person1).name);
+        
+
+
+          //不能通过对象实例重写原型中的值
+          // function Person() {             
+          // }
+
+          // Person.prototype.name="Nicholas";
+          // Person.prototype.age=29;
+          // Person.prototype.job="Software Engineer";
+          // Person.prototype.sayName=function () {
+          //    alert(this.name);
+          // };
+
+          // var person1=new Person();
+          // var person2=new Person();
+
+          // person2.name="Greg";
+          // alert(person1.name);
+          // alert(person2.name);
+          
+          //delete操作符删除实例属性，让原型中的属性能重新访问
+          // function Person() {             
+          // }
+
+          // Person.prototype.name="Nicholas";
+          // Person.prototype.age=29;
+          // Person.prototype.job="Software Engineer";
+          // Person.prototype.sayName=function () {
+          //    alert(this.name);
+          // };
+
+          // var person1=new Person();
+          // var person2=new Person();
+
+          // person1.name="Greg";
+          // alert(person1.name); //来自实例
+          // alert(person2.name);//来自原型
+
+          // delete person1.name;
+          // alert(person1.name);//来自原型
+
+
+          // hsaOwnProperty方法,检测对象存在于实例或者原型中
+           
+          // function Person() {             
+          //  }
+
+          // Person.prototype.name="Nicholas";
+          // Person.prototype.age=29;
+          // Person.prototype.job="Software Engineer";
+          // Person.prototype.sayName=function () {
+          //    alert(this.name);
+          // };
+
+          // var person1=new Person();
+          // var person2=new Person();
+
+          // alert(person1.hasOwnProperty("name"));//false
+
+          // person1.name="Greg";
+          // alert(person1.name);
+          // alert(person1.hasOwnProperty("name"));//来自实例返回true
+
+          // alert(person2.name);
+          // alert(person2.hasOwnProperty("name"));
+
+          // delete person1.name;
+          // alert(person1.name);
+          // alert(person1.hasOwnProperty("name"));
+
+          // 原型与in操作符
+          // function Person() {             
+          //  }
+
+          // Person.prototype.name="Nicholas";
+          // Person.prototype.age=29;
+          // Person.prototype.job="Software Engineer";
+          // Person.prototype.sayName=function () {
+          //    alert(this.name);
+          // };
+
+          // var person1=new Person();
+          // var person2=new Person();
+
+          // alert(person1.hasOwnProperty("name"));//false
+          // alert("name" in person1);//true
+
+          // person1.name="Greg";
+          // alert(person1.name);
+          // alert(person1.hasOwnProperty("name"));//来自实例返回true
+          // alert("name" in person1);//true
+
+          // alert(person2.name);
+          // alert(person2.hasOwnProperty("name"));
+          // alert("name" in person2);//true
+
+          // delete person1.name;
+          // alert(person1.name);
+          // alert(person1.hasOwnProperty("name"));
+          // alert("name" in person1);//true
+          
+          //确定对象存在于原型或对象中
+          // function hasPrototypeProperty(object,name) {
+          //     return !object.hasOwnProperty(name)&&(name in object);
+          // }
+                    
+          // function Person() {             
+          //  }
+
+          // Person.prototype.name="Nicholas";
+          // Person.prototype.age=29;
+          // Person.prototype.job="Software Engineer";
+          // Person.prototype.sayName=function () {
+          //    alert(this.name);
+          // };
+          
+          // var person=new Person();
+          // alert(hasPrototypeProperty(person,"name"));//true 属性存在于原型中
+
+          // person.name="Greg";
+          // alert(hasPrototypeProperty(person,"name"));//false 属性存在于实例中
+
+          //取得对象上所有可枚举的实例属性 Object.keys()方法
+          // function Person() {             
+          //  }
+
+          // Person.prototype.name="Nicholas";
+          // Person.prototype.age=29;
+          // Person.prototype.job="Software Engineer";
+          // Person.prototype.sayName=function () {
+          //    alert(this.name);
+          // };
+
+          // var keys=Object.keys(Person.prototype);
+          // alert(keys);
+
+          // var p1=new Person();
+          // p1.name="Rob";
+          // p1.age=31;
+          // var p1keys=Object.keys(p1);
+          // alert(p1keys);
+          // alert(hasPrototypeProperty(p1,"name"));
+          // var keys=Object.getOwnPropertyNames(Person.prototype);
+          // alert(keys);
+
+
+          //更简单的原型语法,constructor属性不再指向Person
+          // function Person() {            
+          // }
+
+          // Person.prototype={
+          //    name:"Nicholas",
+          //    age:29,
+          //    job:"Software Engineer",
+          //    sayName:function () {
+          //       alert(this.name);
+          //    }
+          // };                   
+     
+ 
+
+
+
+          // var friend=new Person();
+
+          // alert(friend instanceof Object);
+          // alert(friend instanceof Person);
+          // alert(friend.constructor==Person);
+          // alert(friend.constructor==Object);
+          
+          //constructor值重要的话可以特意将它设置回适当的值，会导致[Enumberable]特性被设置为true
+          //  function Person() {            
+          // }
+          
+
+          // Person.prototype={
+          //    constructor:Person,
+          //    name:"Nicholas",
+          //    age:29,
+          //    job:"Software Engineer",
+          //    sayName:function () {
+          //       alert(this.name);
+          //    }
+          // };
+         
+       
+
+          // function Person() {            
+          // }
+
+          // Person.prototype={            
+          //    name:"Nicholas",
+          //    age:29,
+          //    job:"Software Engineer",
+          //    sayName:function () {
+          //       alert(this.name);
+          //    }
+          // };
+
+          // //重构构造函数,只适用于ES5兼容的浏览器
+          // Object.defineProperty(Person.prototype,"constructor",{
+          //           enumerable:false,
+          //           value:Person
+          // });
+        
+
+          // 原型的动态性
+          // var friend=new Person();
+
+          // Person.prototype.sayHi=function () {
+          //    alert("hi");
+          // };
+          // friend.sayHi();
+
+          //  function Person() {            
+          // }
+          //  var friend=new Person();
+
+          // Person.prototype={
+          // constructor:Person,            
+          //    name:"Nicholas",
+          //    age:29,
+          //    job:"Software Engineer",
+          //    sayName:function () {
+          //       alert(this.name);
+          //    }
+          // };
+          // friend.sayName();    //error
+          
+         
+        
+          //原生对象的原型
+          // alert(typeof Array.prototype.sort);
+          // alert(typeof String.prototype.substring);
+
+          // String.prototype.startsWith=function (text) {
+          //    return this.indexOf(text)===0;
+          // };
+
+          // var msg="Hello world";
+          // alert(msg.startsWith("Hello")); //true
+          
+          //原型对象的问题
+         //  function Person() {             
+         //  }
+
+         //  Person.prototype={
+         //    constructor:Person,
+         //     name:"Nicholas",
+         //     age:29,
+         //     job:"Software Engineer",
+         //     friends:["Shelby","Court"],
+         //     sayName:function () {
+         //        alert(this.name);
+         //     }
+         //  };
+        
+
+         //  var person1=new Person();
+         //  var person2=new Person();
+
+         //  person1.friends.push("Van");
+
+         // alert(person1.firends);
+         // alert(person2.friends);
+         // alert(person1.friends===person2.friends);
+         
+
+         //组合使用构造函数和原型模式
+          // function Person(name,age,job) {
+          //    this.name=name;
+          //    this.age=age;
+          //    this.job=job;
+          //    this.friends=["Shelby","Court"];
+          // }//构造函数模式
+     
+         
+          // Person.prototype={
+          //    constructor : Person,
+          //    sayName:function () {
+          //       alert(this.name);
+          //    }
+          // };//原型模式
+
+         
+          // var person1=new Person("Nicholas",25,"Software");
+          // var person2=new Person("Greg",29,"Doctor");
+
+          // person1.friends.push("Van");          
+          // alert(person1.friends);    //abc
+          // alert(person2.friends);    //ab
+          // alert(person1.friends===person2.friends);  //false
+          // alert(person1.sayName===person2.sayName);  //true
+          
+      
+         
+         //动态原型模式,不能使用对象字面量重写原型
+        // function Person(name,age,job) {
+        //   this.name=name;
+        //   this.age=age;
+        //   this.job=job;
+
+        //   if(typeof this.name!='function'){
+        //          Person.prototype.sayName=function () {
+        //             alert(this.name);
+        //          };
+        //   }
+        // }
+        
+      
+        //  var friend=new Person("Nicholas",25,"Software");
+        //  friend.sayName();
+        
+
+        
+        //寄生构造函数模式
+        // function Person(name,age,job) {
+        //    var o={};
+        //    o.name=name;
+        //    o.age=age;
+        //    o.job=job;
+        //    o.sayName=function () {
+        //       alert(this.name);
+        //    };
+        //    return o;
+        // }        
+
+
+        // var friend=new Person("Nicholas",29,"Software");
+        // friend.sayName();
+ 
+
+        
+
+        // function SpecialArray() {
+        //    //创建数组
+        //    var values=[];
+        //     //添加值
+        //    values.push.apply(values,arguments);
+        //    //添加方法
+        //    values.toPipedString=function () {
+        //       return this.join("-");
+        //    };
+        //    //返回数组
+        //       return values;
+        //  }
+
+        // var colors=new SpecialArray("red","green","red");
+        // console.log(colors.toPipedString());       
+      
+
+       //  // 稳妥构造函数模式
+       //  function Person(name,age,job) {
+       //    //创建要返回的对象
+       //     var o={};
+       //     //可以在这里定义私有变量和函数
+           
+       //     //添加方法
+       //     o.sayName=function () {
+       //        alert(name);
+       //     };
+       //     //返回对象
+       //     return o; 
+       //  }
+      
+     
+
+
+
+       //  var friend= Person("Nicholas",29,"Software");
+       // friend.sayName();
+
+      
+
+      // 继承 Start!
+      
+      // 原型链
+      // function SuperType() {
+      //    this.property=true;
+      // }     
+
+      // SuperType.prototype.getSuperValue=function () {
+      //    return this.property;         
+      // };
+
+      // function SubType() {
+      //    this.subproperty=false;
+      // } 
+      // SubType.prototype.getSubValue=function () {
+      //    return this.subproperty;
+      // };
+
+      //  //继承了SuperType
+      // SubType.prototype=new SuperType();
+
+      // var instance=new SubType();
+      // alert(instance.getSuperValue()); //true
+      
+      
+      
+      // //操作符用来测试实例与原型链中出现的构造函数,结果就会返回true
+      // alert(instance instanceof Object);
+      // alert(instance instanceof SuperType);
+      // alert(instance instanceof SubType);  
+      
+      // //只要是原型链中出现过的原型,都可以说说该原型链所派生的原型,因此 也会返回true
+      // alert(Object.prototype.isPrototypeOf(instance));
+      // alert(SuperType.prototype.isPrototypeOf(instance));
+      // alert(SubType.prototype.isPrototypeOf(instance));
+      
+      
+      
+      //谨慎地定义方法
+      //  function SuperType() {
+      //    this.property=true;
+      // }
+   
+
+      // SuperType.prototype.getSuperValue=function () {
+      //    return this.property;         
+      // };
+        
+        
+
+      // function SubType() {
+      //    this.subproperty=false;
+      // }       
+      // //继承了SuperType
+      // SubType.prototype=new SuperType();
+      // //添加新方法
+      // SubType.prototype.getSubValue=function () {
+      //   return this.subproperty;
+      // };
+      // //重写超类型中的方法
+      // SubType.prototype.getSuperValue=function () {
+      //   return false;
+      // };
+            
+    
+      // var instance=new SubType();
+      // alert(instance.getSuperValue());
+      
+      //对象字面量创建原型方法就会重写原型链
+     //  function SuperType() {
+     //     this.property=true;
+     //  }
+
+     //  SuperType.prototype.getSuperValue=function () {
+     //     return this.property;         
+     //  };
+
+     //  function SubType() {
+     //     this.subproperty=false;
+     //  } 
+
+     //  //继承了SuperType
+     //  SubType.prototype=new SuperType();
+     //  //使用对象字面量添加新方法,这样会重写原型链,会导致上一行代码无效
+     // SubType.prototype={
+     //      getSubValue:function () {
+     //        return this.subproperty;
+     //      },
+     //      someOtherMethod:function () {
+     //        return false;
+     //      }
+     // };
+
+     //  var instance=new SubType();
+     //  alert(instance.getSuperValue()); //error!
+       
+     
+    // 原型链的问题
+     // function SuperType() {
+     //   this.colors=["red","blue","green"];
+     // }
+   
+    
+     // function SubType() {}
+     //    //继承了Supertype
+     //    SubType.prototype=new SuperType();
+        
+     //    var instance1=new SubType();
+     //    instance1.colors.push("black");
+     //    alert(instance1.colors);
+
+     //    var instance2=new SubType();
+     //    alert(instance2.colors);
+     
+   
+
+
+     
+     // 借用构造函数
+     // function SuperType() {
+     //    this.colors=["red","blue","green"];
+     // }
+
+     // function SubType() {
+     //  //继承了SuperType
+     //    SuperType.apply(this);
+     // }
+    
+     
+     // var instance1=new SubType();
+     // instance1.colors.push("black");
+     // alert(instance1.colors);
+
+     // var instance2=new SubType();
+     // alert(instance2.colors);
+     
+     //传递参数
+     // function SuperType(name) {
+     //   this.name=name;
+       
+     // }
+     // function SubType() {
+     //   //继承SuperType,同时gauge传递了参数
+     //   SuperType.call(this,"Nicholas");
+     //   //实例属性
+     //   this.age=29;       
+     // }
+
+     // var instance=new SubType();
+     // alert(instance.name);
+     // alert(instance.age);
+    
+   
+
+   
+
+
+   
+
+     // 组合继承     
+      // function SuperType(name) {
+      //    this.name=name;
+      //    this.colors=["red","yellow","green"];
+      // }
+   
+      // SuperType.prototype.sayName=function () {
+      //    alert(this.name);
+      // };
+
+      // function SubType(name,age) {
+      //   //继承属性
+      //   SuperType.call(this,name);
+      //   this.age=age;
+      // }
+      // 
+     
+        
+    
+      // //继承方法
+      // SubType.prototype=new SuperType();
+      // //放在继承方法之前会出错
+      // SubType.prototype.sayAge=function () {
+      //   alert(this.age);
+      // };
+
+
+      // var instance1=new SubType("Nicholas",26);
+      // instance1.colors.push("orange");
+      // alert(instance1.colors);
+      // instance1.sayName();
+      // instance1.sayAge();
+
+      // var instance2=new SubType("Greg",28);
+      // alert(instance2.colors);
+      // instance2.sayName();0
+      // instance2.sayAge();
+       
+
+       // 原型式继承
+       // function object(o) {
+       //   function F() {}
+       //   F.prototype=o;
+       //   return new F();
+       // }
+              
+       
+       // function Person(name,age,job) {
+       //   this.name=name;
+       //   this.age=age;
+       //   this.job=job;
+       //   this.friends=['Shelby','Court'];
+       // }
+
+       // Person.prototype={
+       //  constructor:Person,
+       //  sayName:function () {
+       //     alert(this.name);
+       //  }
+       // };
+      
+
+
+       // var person1=new Person("Nicholas",26,"Software");
+       // var person2=new Person("Greg",23,"Doctor");
+
+       //  person1.friends.push("van");
+       //  console.log(person1.firends);
+       //  console.log(person2.firends);
+       //  console.log(person1.friends===person2.friends);
+       //  console.log(person1.sayName===person2.sayName);
+       // var person={
+       //   name:"Nicholas",
+       //   friends:["Shelby","Court","van"]
+       // };
+
+       // var anotherPerson=object(person);
+       // anotherPerson.name="greg";
+       // anotherPerson.friends.push("Rob");
+
+       // var yetAnotherPerson=object(person);
+       // yetAnotherPerson.name="Linda";
+       // yetAnotherPerson.friends.push("Barbie");
+       // alert(person.friends);
+ 
+
+      //object.create方法
+       // var person={
+       //   name:"Nicholas",
+       //   friends:["Shelby","Court","van"]
+       // };
+      
+       // var anotherPerson=object.create(person);
+       // anotherPerson.name="greg";
+       // anotherPerson.friends.push("Rob");
+
+       // var yetAnotherPerson=object.create(person);
+       // yetAnotherPerson.name="Linda";
+       // yetAnotherPerson.friends.push("Barbie");
+       // alert(person.friends);
+
+
+       // var person={
+       //   name:"Nicholas",
+       //   friends:["Shelby","Court","van"]
+       // };
+
+       // var anotherPerson=Object.create(person,{
+       //         name:{
+       //              value:"Greg"
+       //         }
+       // });
+       // alert(anotherPerson.name);
+       
+
+       // 寄生式继承
+       // function object(o) {
+       //   function F() {}
+       //   F.prototype=o;
+       //   return new F();
+       // }    
+       
+       
+
+       // function createAnother(original) {
+       //   var clone=object(original);
+       //   clone.sayHi=function () {
+       //      alert("hi");
+       //   };
+       //   return clone;
+       // }
+
+       // var person={
+       //  name:"Nicholas",
+       //  friends:["Shelby","Court","Van"]
+       // };
+
+       // var anotherPerson=createAnother(person);
+       // anotherPerson.sayHi();
+        
+       // 寄生组合式继承
+       // function SuperType(name) {
+       //    this.name=name;
+       //    this.colors=["red","blue","green"];
+       // }
+       // SuperType.prototype.sayName=function () {
+       //    alert(this.name);
+       // };
+       
+     
+        
+
+       // function SubType(name,age) {
+       //    SuperType.call(this,name);
+       //    this.age=age;
+       // }
+       // SubType.prototype=new SuperType();
+       // SubType.prototype.constructor=SubType;
+       // SubType.prototype.sayAge=function () {
+       //   alert(this.age);
+       // };
+     
+
+      // 寄生组合式继承
+      //  function object(o) {
+      //    function F() {}
+      //    F.prototype=o;
+      //    return new F();
+      //  }
+
+       
+
+      //  //寄生组合式继承的基本模式
+      // function inheritPrototype(subType,superType) {
+      //   var prototype=object(superType.prototype);  //创建对象
+      //   prototype.constructor=subType;                     //增强对象
+      //   subType.prototype=prototype;                        //指定对象
+      // }
+      
+  
+
+      //  function SuperType(name){
+      //    this.name=name;
+      //    this.colors=["red","blue","green"];
+      //  }
+      
+     
+      //  SuperType.prototype.sayName=function () {
+      //    alert(this.name);
+      //  };    
+     
+       
+      //  function SubType(name,age){
+      //    SuperType.call(this,name);
+      //    this.age=age;
+      //  }
+
+
+      //  inheritPrototype(SubType,SuperType);
+
+      //  SubType.prototype.sayAge=function () {
+      //    alert(this.age);
+      //  };
+          
+
+      
+
+
+      //第七章 函数表达式
+      
+
+      //函数声明：
+      // function functionName(arg0,arg1,arg2) {
+      //   // 函数体
+      // }
+             
+
+      // //函数声明提升,意思是执行代码前会先读取函数声明,
+      // //例子不会抛出错误,因为在代码执行之前会读取函数声明
+      // sayHi();
+      // function sayHi() {
+      //   alert('Hi');
+      // }
+    
+      
+      // var sayHi=function (arg0,arg1,arg2) {
+      //   // 函数体
+      // };
+
+
+      // var factorial=(function f(num) {
+      //   if(num<=1){
+      //     return 1;
+      //   }else{
+      //     return num*f(num-1);
+      //   }
+      // });
+      // var anotherf=factorial;
+      // factorial=null;
+      // console.log(anotherf(4));
+
+      
+      
+ 
+      
+      // function createComparisonFunction(propertyName) {
+
+      //   return function(object1,object2){
+      //     var value1=object1[propertyName];
+      //     var value2=object2[propertyName];
+
+      //     if(value1<value2){
+      //       return -1;
+      //     }else if(value1>value2){
+      //       return 1;
+      //     }else{
+      //       return 0;
+      //     }
+      //    };          
+      //   }
+      
+
+      
+
+
+
+      
+
+      //7.2闭包与变量
+     
+     // function createComparisonFunction(propertyName) {
+     //   return function (obj1,obj2) {
+     //     var value1=obj1[propertyName];
+     //     var value2=obj2[propertyName];
+
+     //     if(value1<value2){
+     //        return -1;
+     //     }else if(value1>value2){
+     //        return 1;
+     //     }else{
+     //        return 0;
+     //     }
+     //   };
+     // }
+      
+   
+
+     
+     // function createFunctions() {
+     //   var result=[];
+     //   for(var i=0;i<10;i++){
+     //     result[i]=function (num) {
+     //       return function () {
+     //         return num;
+     //       };
+     //     }(i);
+     //   }
+     //   return result;       
+     // }
+     
+   
+   // var name='window';
+   // var object={
+   //  name:'my object',
+   //  getNameFunc:function () {
+   //    var that=this;
+   //       return function () {
+   //         return that.name;
+   //       };
+   //  }    
+   // };
+   
+
+
+   // console.log(object.getNameFunc()());
+   // 
+   
+   // function assignHandler() {
+   //   var element=document.getElementById('someElement');
+   //   var id=element.id;
+   //   element.onclick=function () {
+   //     alert(id);
+   //   };
+   //   element=null;
+   // }
+   
+
+   
+ 
+ //7.4.0 私有变量
+ 
+   //构造函数中定义特权方法
+   // function MyObject() {
+   //   //私有变量和私有函数
+   //   var privateVariable=10;
+   //   function privateFunction() {
+   //     return false;
+   //   }
+
+   //   //特权方法
+   //   this.publicMethod=function () {
+   //     privateVariable++;
+   //     return privateFunction();
+   //   };
+   // }
+  
+ 
+   
+   //构造函数的缺点是针对每一个实例都会创建同一组新方法
+   // function Person(name) {
+   //   this.getName=function () {
+   //     return name;
+   //   };
+   //   this.setName=function (value) {
+   //     name=value;
+   //   };
+   // }
+
+   // var person=new Person('Nicholas');
+   // console.log(person.getName());
+   // person.setName('Greg');
+   // console.log(person.getName());
+   
+ 
+
+
+
+   //7.4.1 静态私有变量
+   
+     // (function () {
+    
+   //     //私有变量和私有函数
+   //     var privateVariable=10;
+   //     function privateFunction() {
+   //       return false;
+   //     }
+
+   //     //构造函数
+   //     MyObject=function () {         
+   //     };
+
+   //     //公有/特权方法
+   //     MyObject.prototype.publicMethod=function () {
+   //       privateVariable++;
+   //       return privateFunction();
+   //     };
+   // })();
+   
+   
+  
+   
+   // (function () {
+   //   var name="";
+   //   Person=function (value) {
+   //     name=value;
+   //   };
+
+   //   Person.prototype.getName=function () {
+   //     return name;
+   //   };
+
+   //   Person.prototype.setName=function (value) {
+   //     name=value;
+   //   };
+   // })();
+  
+  
+    
+
+   //  var person1=new Person("Nicholas");
+   //  console.log(person1.getName());
+   //  person1.setName("Greg");
+   //  console.log(person1.getName());
+
+   //   var person2=new Person("roii");
+   //   console.log(person1.getName());
+   //   console.log(person2.getName());
+   
+
+   //7.4.2 模块模式
+   
+   //对象字面量的方式创建单例对象
+   // var singleton={
+   //  name:value,
+   //  method:function () {
+   //    //方法代码
+   //  }
+   // };   
+   
+  
+
+ 
+
+   //模块模式通过为单例添加私有变量和特权方法能够使其得到增强
+   
+   // var singleton=function () {
+   //   //私有变量和私有函数
+   //   var privateVariable=10;
+   //   function privateFunction() {
+   //     return false;
+   //   }   
+
+   //   //特权//公有方法和属性
+   //   return {
+   //    publicProperty:true,
+   //    publicMethod:function () {
+   //      privateVariable++;
+   //      return privateFunction();
+   //    }
+   //   };
+   // }();
+    
+
+   
+
+
+   
+
+   // var application=function () {
+   //   //私有变量和函数
+     // var components=[];
+
+   //   //初始化
+   //   components.push(new BaseComponent());
+
+   //   //公共
+   //   return {
+   //     getComponentCount:function () {
+   //       return components.length;
+   //     },
+   //     registerComponent:function (component) {
+   //       if(typeof component=='object'){
+   //         components.push(component);
+   //       }
+   //     }
+   //   };
+   // }();
+
+
+
+ 
+
+   
+
+
+   //7.4.3 增强的模块模式
+   
+
+   // var singleton=function () {
+   //  //私有变量和私有函数
+   //   var privateVariable=10;
+   //   function privateFunction() {
+   //     return false;
+   //   }
+     
+   //   //创建对象
+   //   var object=new CustomType();
+     
+   //   //添加特权/公有属性和方法
+   //   object.publicProperty=true;
+   //   object.publicMethod=function () {
+   //     privateVariable++;
+   //     return privateFunction();
+   //   };
+
+   //   //返回这个对象
+   //   return object;
+   // }();
+   
+  
+   
+   
+   
+
+   // var singleton=function () {
+   //    var privateVariable=10;
+   //    function privateFunction() {
+   //      return false;
+   //    }
+
+   //    var object=new CustomType();
+
+   //    object.publicProperty=true;
+   //    object.publicMethod=function () {
+   //      privateVariable++;
+   //      return privateFunction();
+   //    };
+   //    return object;
+   // }();
+
+
+
+   // var application=function () {
+   //  //私有变量和函数
+   //   var components=[];
+     
+   //   //初始化
+   //   components.push(new BaseComponent());
+     
+   //   //创建application的一个局部副本
+   //   var app=new BaseComponent();
+     
+   //   //公共接口
+   //   app.getComponentCount=function () {
+   //     return components.length;
+   //   };
+
+   //   app.registerComponent=function (component) {
+   //     if(typeof component=='object'){
+   //       components.push(component);
+   //     }
+   //   };
+     
+   //   //返回这个副本
+   //   return app;
+   // }();
+
+
+   
+     //8.1 window对象
+     
+     // 8.16 间歇调用和超时调用
+      
+     // setTimeout(function () {
+     //   alert("Hollo world");
+     // },3000);
+     
+    
+     
+    // var timeoutId=setTimeout(function () {
+    //   alert('heolo');
+    // },1000);
+    
+    // clearTimeout(timeoutId);
+    
+    // setInterval(function () {
+    //   alert('hello world');
+    // },3000);
+  
+
+  // var num=0;
+  // var max=10;
+  // var intervalId =null;
+
+  // function incrementNumber() {
+  //   num++;
+    
+  //   //如果执行次数达到了max设定的值,则取消后续尚未执行的调用
+  //   if(num==max){
+  //      clearInterval(intervalId);
+  //      alert('done');
+  //   }
+  // }
+  //   intervalId=setInterval(incrementNumber,500);
+
+
+
+    ///////////////
+    // 11章 DOM扩展 //
+    ///////////////
+  
+    
+   //取得类selec 的第一个元素
+   // var sel=document.querySelector(".seted");
+   // var ems=document.getElementById('div').querySelectorAll('em');
+   
+   // //  取得类selec 的所有元素
+   // var selec=document.querySelectorAll('.selector');
+   // var strongs=document.querySelectorAll('p strong');
+
+
+   
+
+
+
+
+   // 事件对象
+   
+   // 需要通过一个函数处理多个事件时,使用type属性
+   var btn=document.getElementById('myBtn');
+
+   var handler=function (event) {
+       switch(event.type) {
+           case 'click' :
+           alert("clicked");
+           break;
+               
+           case 'mouseover' :
+               event.target.style.backgroundColor='red';                 
+               break;
+
+           case 'mouseout' :
+               event.target.style.backgroundColor='';                 
+               break;
+       }
+   };
+   btn.onclick=handler;
+   btn.onmouseover=handler;
+   btn.onmouseout=handler;
+
+   
+   //立即停止事件在DOM层次中的传播,即取消进一步的事件捕获或冒泡
+   var btn=document.getElementById('myBtn');
+   
+   btn.onclick=function (event) {
+       alert("Clicked");
+       event.stopPropagation();
+   };
+
+   document.body.onclick=function (event) {
+       alert("Body clicked");
+   };
+ 
+    </script>
+
+</body>
+
+</html>
