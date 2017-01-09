@@ -1424,28 +1424,52 @@
 
 
    //跨浏览器的事件处理程序
-   var EvenUtil={
-      addHandler:function (element,type,handler) {
-        if(element.addEventListener){
-            element.addEventListener(type,handler,false);
-        }else if(element.attachEvent){
-            element.attachEvent("on" +type , handler);
-        }else{
-            element["on" +type]=handler;
-        }
-      },
-      removeHandler:function (element,type,handler) {
-        if(element.removeEventListener){
-            element.removeEventListener(type,handler,false);
-        }else if(element.detachEvent){
-            element.detachEvent("on" +type , handler);
-        }else{
-            element["on" +type]=null;
-        }
-      }
+   // var EvenUtil={
+   //    addHandler:function (element,type,handler) {
+   //      if(element.addEventListener){
+   //          element.addEventListener(type,handler,false);
+   //      }else if(element.attachEvent){
+   //          element.attachEvent("on" +type , handler);
+   //      }else{
+   //          element["on" +type]=handler;
+   //      }
+   //    },
+   //    removeHandler:function (element,type,handler) {
+   //      if(element.removeEventListener){
+   //          element.removeEventListener(type,handler,false);
+   //      }else if(element.detachEvent){
+   //          element.detachEvent("on" +type , handler);
+   //      }else{
+   //          element["on" +type]=null;
+   //      }
+   //    }
 
-   };
+   // };
+    
+   
+    //事件委托
+    var list=document.getElementById('myLinks');
 
+    EvenUtil.addHandler(list, "click" ,function (event) {
+       event = EvenUtil.getEvent(event);
+       var target =EvenUtil.getTarget(event);
+
+       switch(target.id){
+           case "doSomething" :
+                document.title = "I change the document's title";
+                break;
+           case "goSomewhere" :
+                location.href="http://www.wrox.com";
+                break;
+           case "sayHi" :
+                alert("Hi");
+                break;
+       }
+    });
+
+
+
+    
  
     </script>
 
