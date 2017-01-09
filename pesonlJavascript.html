@@ -1373,39 +1373,79 @@
    // 事件对象
    
    // 需要通过一个函数处理多个事件时,使用type属性
-   var btn=document.getElementById('myBtn');
+   // var btn=document.getElementById('myBtn');
 
-   var handler=function (event) {
-       switch(event.type) {
-           case 'click' :
-           alert("clicked");
-           break;
+   // var handler=function (event) {
+   //     switch(event.type) {
+   //         case 'click' :
+   //         alert("clicked");
+   //         break;
                
-           case 'mouseover' :
-               event.target.style.backgroundColor='red';                 
-               break;
+   //         case 'mouseover' :
+   //             event.target.style.backgroundColor='red';                 
+   //             break;
 
-           case 'mouseout' :
-               event.target.style.backgroundColor='';                 
-               break;
-       }
-   };
-   btn.onclick=handler;
-   btn.onmouseover=handler;
-   btn.onmouseout=handler;
+   //         case 'mouseout' :
+   //             event.target.style.backgroundColor='';                 
+   //             break;
+   //     }
+   // };
+   // btn.onclick=handler;
+   // btn.onmouseover=handler;
+   // btn.onmouseout=handler;
 
    
    //立即停止事件在DOM层次中的传播,即取消进一步的事件捕获或冒泡
-   var btn=document.getElementById('myBtn');
+   // var btn=document.getElementById('myBtn');
    
-   btn.onclick=function (event) {
-       alert("Clicked");
-       event.stopPropagation();
+   // btn.onclick=function (event) {
+   //     alert("Clicked");
+   //     event.stopPropagation();
+   // };
+
+   // document.body.onclick=function (event) {
+   //     alert("Body clicked");
+   // };
+   
+
+
+   // IE
+   // var btn=document.getElementById('myBtn');
+   
+   // btn.onclick=function (event) {
+   //     alert("Clicked");
+   //     window.event.cancelBubble = true;
+   // };
+
+   // document.body.onclick=function (event) {
+   //     alert("Body clicked");
+   // };
+   
+
+
+   //跨浏览器的事件处理程序
+   var EvenUtil={
+      addHandler:function (element,type,handler) {
+        if(element.addEventListener){
+            element.addEventListener(type,handler,false);
+        }else if(element.attachEvent){
+            element.attachEvent("on" +type , handler);
+        }else{
+            element["on" +type]=handler;
+        }
+      },
+      removeHandler:function (element,type,handler) {
+        if(element.removeEventListener){
+            element.removeEventListener(type,handler,false);
+        }else if(element.detachEvent){
+            element.detachEvent("on" +type , handler);
+        }else{
+            element["on" +type]=null;
+        }
+      }
+
    };
 
-   document.body.onclick=function (event) {
-       alert("Body clicked");
-   };
  
     </script>
 
