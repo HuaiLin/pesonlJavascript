@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #myDiv {
+            width: 30%;
+            margin: 100px auto;
+            border: 1px solid seagreen;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button type="" id="my-btn">确认</button>
+    <button type="" id="my-btn2">确认2</button>
+
+    <div id="myDiv"></div>
+
+    <script>
+        //  作用域安全的构造函数
+
+        //检查this对象是否是Person的实例
+        function Person(name, age, job) {
+            if (this instanceof Person) {
+                this.name = name;
+                this.age = age;
+                this.job = job;
+            } else {
+                return new Person(name, age, job);
+            }
+        }
+
+        let person1 = Person('hlc', 26, "web");
+
+        //构造函数窃取组合 使用原型链 或者 寄生组合解决作用域安全问题
+        function Polygon(sides) {
+            if (this instanceof Polygon) {
+                this.sides = sides;
+                this.getArea = function () {
+                    return 0;
+                };
+            } else {
+                return new Polygon(sides);
+            }
+        }
+
+        function Rectangle(width, height, sides) {
+            Polygon.call(this, sides);
+            this.width = width;
+            this.height = height;
+            this.getArea = function () {
+                return this.width * this.height;
+            }
+        }
+        Rectangle.prototype = new Polygon();
+        const rect = new Rectangle(4, 5, 10);
+        console.log(rect.sides);
+
+        //函数绑定
+        let EventUtil = {
+            addHandler(element, type, handler) {
+                if (element.addEventListener) {
+                    element.addEventListener(type, handler, false);
+                } else if (element.attachEvent) {
+                    element.attachEvent("on" + type, handler);
+                } else {
+                    element["on" + type] = handler;
+                }
+            },
+            removeHandler(element, type, handler) {
+                if (element.removeEventListener) {
+                    element.removeEventListener(type, handler, false);
+                } else if (element.detachEvent) {
+                    element.detachEvent("on" + type, handler);
+                } else {
+                    element["on" + type] = null;
+                }
+            },
+            getEvent(event) {
+                return event ? event : window.event;
+            },
+            getTarget(event) {
+                return event.target || event.srcElement;
+            },
+            preventDefault(event) {
+                if (event.preventDefault) {
+                    event.preventDefault();
+                } else {
+                    event.returnValue = false;
+                }
+            },
+            stopPropagation(event) {
+                if (event.stopPropagation) {
+                    event.stopPropagation();
+                } else {
+                    event.cancelBubble = true;
+                }
+            },
+            getCharCode(event) {
+                if (typeof event.charCode == "number") {
+                    return event.charCode;
+                } else {
+                    return event.keyCode;
+                }
+            }
+
+        };
+
+        //自定义bind函数实现
+        function bind(fn, context) {
+            return function () {
+                return fn.apply(context, arguments);
+            }
+        }
+
+        //bind方法
+        var handler = {
+            message: "Event handled",
+            handleClick: function (event) {
+                alert(this.message + " : " + event.type);
+            }
+        };
+
+        let btn = document.getElementById('my-btn');
+        EventUtil.addHandler(btn, "click", handler.handleClick.bind(handler));
+
+        //柯里化
+        var handler2 = {
+            message: "Event handled",
+            handleClick: function (name, event) {
+                alert(this.message + " : " + name + " : " + event.type);
+            }
+        };
+        let btn2 = document.getElementById('my-btn2');
+        EventUtil.addHandler(btn2, "click", handler2.handleClick.bind(handler2, "myBtn2"));
+        //不可扩展对象
+        // Object.preventExtensions(handler2);
+        //密封对象
+        // Object.seal(handler2);
+        //   冻结对象
+        // Object.freeze(handler2);
+
+
+        //函数柯里化
+        function curry(fn) {
+            let args = Array.prototype.slice.call(arguments, 1);
+            return function () {
+                let innerArgs = Array.prototype.slice.call(arguments),
+                    finalArgs = args.concat(innerArgs);
+                return fn.apply(null, finalArgs);
+            };
+        }
+
+        //throttle函数 自动进行定时器的设置和清除
+        function throttle(method, context) {
+            clearTimeout(method.tId);
+            method.tId = setTimeout(function () {
+                method.call(context);
+            }, 100);
+        }
+
+        function resizeDiv() {
+            let div = document.getElementById('myDiv');
+            div.style.height = div.offsetWidth + 'px';
+        }
+
+        window.onresize = function () {
+            throttle(resizeDiv);
+        }
+    </script>
+</body>
+
+</html>

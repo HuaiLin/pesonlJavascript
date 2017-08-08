@@ -1,0 +1,168 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+
+<body>
+
+	<div id="div1">
+		<p><b>Hello</b>World!</p>
+		<ul>
+			<li>item1</li>
+			<li>item2</li>
+			<li>item3</li>
+		</ul>
+
+	</div>
+	<button id="btn">事件</button>
+	<a href="https://www.baidu.com" id="href" target="_blank">跳转</a>
+	<input type="text" id="myText" name="" value="">
+
+	<!-- 时间委托 -->
+	<ul id="myLinks">
+		<li id="doSome">改变标题栏</li>
+		<li id="goSome">跳转页面</li>		
+		<li id="sayHi">弹出框</li>
+	</ul>
+
+	
+
+	<script>
+		let div = document.getElementById('div1');
+		const filter = (node) => {
+			return node.tagName == "LI" ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+		};
+
+		let walker = document.createTreeWalker(div, NodeFilter.SHOW_ELEMENT, filter, false);
+
+		let node = walker.nextNode();
+		while (node != null) {
+			console.log(node.tagName);
+			node = walker.nextNode();
+		}
+
+		const btn = document.getElementById('btn');
+
+		var EventUtil = {
+			addHandler(element, type, handler) {
+				if (element.addEventListener) {
+					element.addEventListener(type, handler, false);
+				} else if (element.attachEvent) {
+					element.attachEvent("on" + type, handler);
+				} else {
+					element["on" + type] = handler;
+				}
+			},
+			removeHandler(element, type, handler) {
+				if (element.removeEventListener) {
+					element.removeEventListener(type, handler, false);
+				} else if (element.detachEvent) {
+					element.detachEvent("on" + type, handler);
+				} else {
+					element["on" + type] = null;
+				}
+			},
+			getEvent(event) {
+				return event ? event : window.event;
+			},
+			getTarget(event) {
+				return event.target || event.srcElement;
+			},
+			preventDefault(event) {
+				if (event.preventDefault) {
+					event.preventDefault();
+				} else {
+					event.returnValue = false;
+				}
+			},
+			stopPropagation(event) {
+				if (event.stopPropagation) {
+					event.stopPropagation();
+				} else {
+					event.cancelBubble = true;
+				}
+			},
+			getCharCode(event) {
+				if (typeof event.charCode == "number") {
+					return event.charCode;
+				} else {
+					return event.keyCode;
+				}
+			}
+
+		};
+		//事件委托
+		let list = document.getElementById('myLinks');
+		EventUtil.addHandler(list, "click", (e) => {
+			e = EventUtil.getEvent(e);
+			let target = EventUtil.getTarget(e);
+
+			switch (target.id) {
+				case "doSome":
+					document.title = "我改变了标题栏!";
+					break;
+				case "goSome":
+					location.href = "https://baidu.com";
+					break;
+				case "sayHi":
+					alert("Hey!");
+					break;
+				default:
+					break;
+			}
+		});
+
+		//键盘事件
+		let myText = document.getElementById('myText');
+		EventUtil.addHandler(myText, 'keypress', (e) => {
+			alert(EventUtil.getCharCode(e));
+		})
+
+
+		//onload处理事件程序
+		let insertImg = (img, type) => {
+			let image = document.createElement('img');
+			EventUtil.addHandler(image, type, (e) => {
+				alert(EventUtil.getTarget(e).src);
+			});
+			document.body.appendChild(image);
+			image.src = img;
+		}
+
+		EventUtil.addHandler(window, "load", insertImg('1.png', 'click'));
+
+
+
+		EventUtil.addHandler(window, 'load', () => {
+			let script = document.createElement("script");
+			EventUtil.addHandler(script, "load", (event) => {
+				console.log(event.target.nodeName);
+			});
+			script.src = '1.js';
+			document.body.appendChild(script);
+		});
+
+		EventUtil.addHandler(window, 'resize', () => {
+			alert('resize!!!' + window.innerWidth);
+		});
+
+		let body = document.getElementsByTagName('body')[0];
+		EventUtil.addHandler(body, 'click', (e) => {
+			event = EventUtil.getEvent(e);
+			//console.log(event.clientX +',' + event.clientY);
+			//console.log(event.pageX +',' + event.pageY);
+			console.log(event.screenX + ',' + event.screenY);
+		});
+
+
+		
+
+
+		
+	</script>
+
+</body>
+
+</html>

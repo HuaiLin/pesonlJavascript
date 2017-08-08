@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        
+        let json = {
+            "name": "Lim",
+            "age": 25,
+            "school": {
+                "name": "NanHua",
+                "location": "QingYuan"
+            }
+        }
+
+        let book={
+            title:'hlc',
+            autor:[
+                "nicl man power"
+            ],
+            edition:3,
+            year:20
+        }
+        
+        //toJSON方法
+        let book2={
+            title:'hlc',
+            autor:[
+                "nicl man power"
+            ],
+            edition:3,
+            year:20,
+            toJSON(){
+                return this.title;
+            }
+            
+        }
+
+         //还原函数reviver
+         let book3={
+            title:'hlc',
+            autor:[
+                "nicl man power"
+            ],
+            edition:3,
+            year:20,
+            releaseDate:new Date(2017,8,8)
+            
+        }
+
+        let jsonfilter=(key,value)=>{
+            switch (key) {
+                case "title":
+                    return "CHL";   
+                case "year":
+                 return 25;
+                case "autor":
+                 return value.join(',');
+                case "edition":
+                return undefined;
+            
+                default: 
+                return value;
+                   
+            }
+        }
+        //缩进字符串,最长都不能超过10个字符
+        let jsonText=JSON.stringify(book,jsonfilter," ~ ");
+        //缩进空格
+        // let jsonText=JSON.stringify(book,jsonfilter,4);
+        
+        let jsonText3=JSON.stringify(book3,null);
+        
+        //还原函数
+        var bookC3=JSON.parse(jsonText3,function(key,value){
+            if(key=="releaseDate"){
+                return new Date(value);
+            }else{
+                return value;
+            }
+        });
+         
+
+        // let jsText=JSON.parse(jsonText);
+        
+    </script>
+</body>
+
+</html>
